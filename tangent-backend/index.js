@@ -8,7 +8,7 @@ const app = express();
 app.use(cors(), bodyParser.json());
 const port = 4269;
 
-const uri = 'mongodb://localhost:27017/tangent-dev';
+const uri = 'mongodb://localhost:27019/tangent-dev';
 
 MongoClient.connect(uri, (connectionErr, client) => {
     if (connectionErr) {
@@ -28,17 +28,15 @@ MongoClient.connect(uri, (connectionErr, client) => {
         });
     });
 
-    app.get('/', async (req, res) => {
-        res.send('hello')
-    })
+    // app.get('/', async (req, res) => {
+        
+    // })
 
     app.post('/', async (req, res) => {
         try {
             const { email, firstName, lastName } = req.body;
             const user = new User({ email, firstName, lastName });
-            console.log({ user })
             await user.save();
-            console.log({ user })
             res.status(200).send(JSON.stringify(user));
         } catch(postUserErr) {
             console.log({ postUserErr });
